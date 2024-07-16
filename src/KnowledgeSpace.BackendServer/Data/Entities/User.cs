@@ -5,7 +5,6 @@ using System;
 
 namespace KnowledgeSpace.BackendServer.Data.Entities
 {
-    [Table("Users")]
     public class User : IdentityUser
     {
         [MaxLength(50)]
