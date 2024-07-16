@@ -1,10 +1,13 @@
 using FluentValidation.AspNetCore;
 using KnowledgeSpace.BackendServer.Data;
 using KnowledgeSpace.BackendServer.Data.Entities;
+using KnowledgeSpace.BackendServer.IdentityServer;
+using KnowledgeSpace.BackendServer.Services;
 using KnowledgeSpace.ViewModels.Systems.Roles;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -32,6 +35,18 @@ namespace KnowledgeSpace.BackendServer
             //2. Setup identity
             services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
 
+            var builder = services.AddIdentityServer(options =>
+            {
+                options.Events.RaiseErrorEvents = true;
+                options.Events.RaiseInformationEvents = true;
+                options.Events.RaiseFailureEvents = true;
+                options.Events.RaiseSuccessEvents = true;
+            })
+            .AddInMemoryApiResources(Config.Apis)
+            .AddInMemoryClients(Config.Clients)
+            .AddInMemoryIdentityResources(Config.Ids)
+            .AddAspNetIdentity<User>();
+
             services.Configure<IdentityOptions>(options =>
             {
                 // Default Lockout settings.
@@ -47,13 +62,17 @@ namespace KnowledgeSpace.BackendServer
                 options.User.RequireUniqueEmail = true;
             });
 
-            services.AddControllers().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<RoleVmValidator>());
+            services.AddControllersWithViews().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<RoleVmValidator>());
+
+            services.AddRazorPages();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "KnowledgeSpace.BackendServer", Version = "v1" });
             });
 
             services.AddTransient<DbInitializer>();
+            services.AddTransient<IEmailSender, EmailSenderService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -66,6 +85,12 @@ namespace KnowledgeSpace.BackendServer
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "KnowledgeSpace.BackendServer v1"));
             }
 
+            app.UseStaticFiles();
+
+            app.UseIdentityServer();
+
+            app.UseAuthentication();
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
@@ -74,7 +99,8 @@ namespace KnowledgeSpace.BackendServer
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                endpoints.MapDefaultControllerRoute();
+                endpoints.MapRazorPages();
             });
         }
     }
