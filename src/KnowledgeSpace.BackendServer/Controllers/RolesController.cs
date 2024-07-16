@@ -1,5 +1,5 @@
 ﻿using KnowledgeSpace.ViewModels;
-using KnowledgeSpace.ViewModels.Systems;
+using KnowledgeSpace.ViewModels.Systems.Roles;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
