@@ -22,6 +22,8 @@ namespace KnowledgeSpace.BackendServer
 {
     public class Startup
     {
+        private readonly string KspSpecificOrigins = "KspSpecificOrigins";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -33,10 +35,12 @@ namespace KnowledgeSpace.BackendServer
         public void ConfigureServices(IServiceCollection services)
         {
             //1. Setup entity framework
-            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
-            //2. Setup identity
-            services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("DefaultConnection")));
+            //2. Setup idetntity
+            services.AddIdentity<User, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>();
 
             var builder = services.AddIdentityServer(options =>
             {
@@ -46,11 +50,22 @@ namespace KnowledgeSpace.BackendServer
                 options.Events.RaiseSuccessEvents = true;
             })
             .AddInMemoryApiResources(Config.Apis)
-            .AddInMemoryClients(Config.Clients)
+            .AddInMemoryClients(Configuration.GetSection("IdentityServer:Clients"))
             .AddInMemoryIdentityResources(Config.Ids)
             .AddAspNetIdentity<User>()
             .AddProfileService<IdentityProfileService>()
             .AddDeveloperSigningCredential();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy(KspSpecificOrigins,
+                builder =>
+                {
+                    builder.WithOrigins(Configuration["AllowOrigins"])
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+            });
 
             services.Configure<IdentityOptions>(options =>
             {
@@ -67,14 +82,19 @@ namespace KnowledgeSpace.BackendServer
                 options.User.RequireUniqueEmail = true;
             });
 
-            services.Configure<ApiBehaviorOptions>(options => { options.SuppressModelStateInvalidFilter = true; });
-
-            services.AddControllersWithViews().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<RoleVmValidator>());
-
-            services.AddAuthentication().AddLocalApi("Bearer", option =>
+            services.Configure<ApiBehaviorOptions>(options =>
             {
-                option.ExpectedScope = "api.knowledgespace";
+                options.SuppressModelStateInvalidFilter = true;
             });
+
+            services.AddControllersWithViews()
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<RoleCreateRequestValidator>());
+
+            services.AddAuthentication()
+               .AddLocalApi("Bearer", option =>
+               {
+                   option.ExpectedScope = "api.knowledgespace";
+               });
 
             services.AddAuthorization(options =>
             {
@@ -97,10 +117,13 @@ namespace KnowledgeSpace.BackendServer
                     }
                 });
             });
+            services.AddTransient<DbInitializer>();
+            services.AddTransient<IEmailSender, EmailSenderService>();
+            services.AddTransient<ISequenceService, SequenceService>();
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "KnowledgeSpace.BackendServer", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Knowledge Space API", Version = "v1" });
 
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
@@ -111,10 +134,9 @@ namespace KnowledgeSpace.BackendServer
                         {
                             AuthorizationUrl = new Uri("https://localhost:5000/connect/authorize"),
                             Scopes = new Dictionary<string, string> { { "api.knowledgespace", "KnowledgeSpace API" } }
-                        }
-                    }
+                        },
+                    },
                 });
-
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
                     {
@@ -126,10 +148,6 @@ namespace KnowledgeSpace.BackendServer
                     }
                 });
             });
-
-            services.AddTransient<DbInitializer>();
-            services.AddTransient<IEmailSender, EmailSenderService>();
-            services.AddTransient<ISequenceService, SequenceService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -138,21 +156,14 @@ namespace KnowledgeSpace.BackendServer
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c =>
-                {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "KnowledgeSpace.BackendServer v1");
-                    c.OAuthClientId("swagger");
-                });
             }
 
+            app.UseErrorWrapping();
             app.UseStaticFiles();
 
             app.UseIdentityServer();
 
             app.UseAuthentication();
-
-            app.UseErrorWrapping();
 
             app.UseHttpsRedirection();
 
@@ -160,10 +171,20 @@ namespace KnowledgeSpace.BackendServer
 
             app.UseAuthorization();
 
+            app.UseCors(KspSpecificOrigins);
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapDefaultControllerRoute();
                 endpoints.MapRazorPages();
+            });
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.OAuthClientId("swagger");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Knowledge Space API V1");
             });
         }
     }
