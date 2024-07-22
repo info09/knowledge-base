@@ -63,7 +63,7 @@ namespace KnowledgeSpace.BackendServer.Services
         public async Task IsActiveAsync(IsActiveContext context)
         {
             var sub = context.Subject.GetSubjectId();
-            var user = await _userManager.FindByNameAsync(sub);
+            var user = await _userManager.FindByIdAsync(sub);
             context.IsActive = user != null;
         }
     }
