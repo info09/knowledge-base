@@ -2652,7 +2652,7 @@ balanced-match@^1.0.0:
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.2.tgz#e83e3a7e3f300b34cb9d87f615fa0cbf357690ee"
   integrity sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==
 
-base64-js@^1.3.1:
+base64-js@^1.3.0, base64-js@^1.3.1:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/base64-js/-/base64-js-1.5.1.tgz#1b1b440160a5bf7ad40b650f095963481903930a"
   integrity sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==
@@ -3164,6 +3164,11 @@ core-js@3.30.1:
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.30.1.tgz#fc9c5adcc541d8e9fa3e381179433cbf795628ba"
   integrity sha512-ZNS5nbiSwDTq4hFosEDqm65izl2CWmLz0hARJMyNQBgkUZMIF51cQiMvIQKA6hvuaeWxQDP3hEedM1JZIgTldQ==
 
+core-js@^2.6.4:
+  version "2.6.12"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.12.tgz#d9333dfa7b065e347cc5682219d6f690859cc2ec"
+  integrity sha512-Kb2wC0fvsWfQrgk8HU5lW6U/Lcs8+9aaYcy4ZFc6DDlo4nZ7n70dEgE5rtR0oG6ufKDUnrwfWL1mXR5ljDatrQ==
+
 core-util-is@1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.2.tgz#b5fd54220aa2bc5ab57aab7140c940754503c1a7"
@@ -3218,6 +3223,11 @@ cross-spawn@^7.0.0, cross-spawn@^7.0.3:
     path-key "^3.1.0"
     shebang-command "^2.0.0"
     which "^2.0.1"
+
+crypto-js@^3.1.9-1:
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/crypto-js/-/crypto-js-3.3.0.tgz#846dd1cce2f68aacfa156c8578f926a609b7976b"
+  integrity sha512-DIT51nX0dCfKltpRiXV+/TVZq+Qq2NgF4644+K7Ttnla7zEzqc+kjJyiB96BHNyUTBxyjzRcZYpUdZa+QAqi6Q==
 
 css-loader@6.10.0:
   version "6.10.0"
@@ -5351,6 +5361,11 @@ ng2-charts@4.1.1:
     lodash-es "^4.17.15"
     tslib "^2.3.0"
 
+ngx-spinner@9.0.2:
+  version "9.0.2"
+  resolved "https://registry.yarnpkg.com/ngx-spinner/-/ngx-spinner-9.0.2.tgz#18123741cec4f7a29fa63d8d9cb769e58f4b8b85"
+  integrity sha512-Yoed+9389GMxHhyPavBA7S3JY5XF38hIhW+qcJuPcxwOJHkhnr6hZFtuSlp1oXMp3HySQPEskWks1joMtmztMA==
+
 nice-napi@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/nice-napi/-/nice-napi-1.0.2.tgz#dc0ab5a1eac20ce548802fc5686eaa6bc654927b"
@@ -5534,6 +5549,16 @@ obuf@^1.0.0, obuf@^1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/obuf/-/obuf-1.1.2.tgz#09bea3343d41859ebd446292d11c9d4db619084e"
   integrity sha512-PX1wu0AmAdPqOL1mWhqmlOd8kOIZQwGZw6rh7uby9fTc5lhaOWFLX3I6R1hrF9k3zUY40e6igsLGkDXK92LJNg==
+
+oidc-client@1.9.1:
+  version "1.9.1"
+  resolved "https://registry.yarnpkg.com/oidc-client/-/oidc-client-1.9.1.tgz#c12c2a63adad7a6780b7cb3c2b9e97c903c1aaad"
+  integrity sha512-AP1BwqASKIYrCBMu9dmNy3OTbhfaiBpy+5hZRbG1dmE2HqpQCp2JiJUNnNGTh2P+cnfVOrC79CGIluD1VMgMzQ==
+  dependencies:
+    base64-js "^1.3.0"
+    core-js "^2.6.4"
+    crypto-js "^3.1.9-1"
+    uuid "^3.3.2"
 
 on-finished@2.4.1:
   version "2.4.1"

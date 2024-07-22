@@ -58,18 +58,18 @@
                 "serve": {
                     "builder": "@angular-devkit/build-angular:dev-server",
                     "options": {
-                      "buildTarget": "test-ng7:build"
+                        "buildTarget": "test-ng7:build"
                     },
                     "configurations": {
                         "production": {
-                          "buildTarget": "test-ng7:build:production"
+                            "buildTarget": "test-ng7:build:production"
                         }
                     }
                 },
                 "extract-i18n": {
                     "builder": "@angular-devkit/build-angular:extract-i18n",
                     "options": {
-                      "buildTarget": "test-ng7:build"
+                        "buildTarget": "test-ng7:build"
                     }
                 },
                 "test": {
@@ -89,7 +89,7 @@
         "test-ng7-e2e": {
             "root": "e2e/",
             "projectType": "application",
-            "prefix": "",
+            "prefix": "app",
             "architect": {
                 "e2e": {
                     "builder": "@angular-devkit/build-angular:protractor",
@@ -108,14 +108,23 @@
     },
     "schematics": {
         "@schematics/angular:component": {
-            "prefix": "app",
-            "styleext": "scss"
+            "style": "scss",
+            "skipTests": true
+        },
+        "@schematics/angular:class": {
+            "skipTests": true
         },
         "@schematics/angular:directive": {
-            "prefix": "app"
+            "skipTests": true
+        },
+        "@schematics/angular:pipe": {
+            "skipTests": true
+        },
+        "@schematics/angular:service": {
+            "skipTests": true
+        },
+        "cli": {
+            "analytics": "0ccfd754-79ab-4bf6-b9ef-ef066366d8c7"
         }
-    },
-    "cli": {
-      "analytics": "0ccfd754-79ab-4bf6-b9ef-ef066366d8c7"
     }
 }
