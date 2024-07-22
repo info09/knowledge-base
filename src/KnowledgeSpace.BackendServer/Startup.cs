@@ -124,6 +124,7 @@ namespace KnowledgeSpace.BackendServer
 
             services.AddTransient<DbInitializer>();
             services.AddTransient<IEmailSender, EmailSenderService>();
+            services.AddTransient<ISequenceService, SequenceService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

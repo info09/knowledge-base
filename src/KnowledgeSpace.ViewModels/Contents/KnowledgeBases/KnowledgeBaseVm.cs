@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KnowledgeSpace.ViewModels.Contents
+namespace KnowledgeSpace.ViewModels.Contents.KnowledgeBases
 {
     public class KnowledgeBaseVm
     {
