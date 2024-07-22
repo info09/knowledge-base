@@ -190,5 +190,20 @@ namespace KnowledgeSpace.BackendServer.Controllers
 
             return Ok(data);
         }
+
+        [HttpPut("{userId}/change-password")]
+        public async Task<IActionResult> PutUserPassword(string userId, [FromBody] UserPasswordChangeRequest request)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+                return NotFound();
+
+            var result = await _userManager.ChangePasswordAsync(user, request.CurrentPassword, request.NewPassword);
+
+            if (result.Succeeded)
+                return NoContent();
+
+            return BadRequest(result.Errors);
+        }
     }
 }
