@@ -21,7 +21,7 @@ namespace KnowledgeSpace.BackendServer.Controllers
         {
             var commands = _context.Commands;
             var commandVm = await commands.Select(i => new CommandVm()
-            {
+    {
                 Id = i.Id,
                 Name = i.Name,
             }).ToListAsync();
