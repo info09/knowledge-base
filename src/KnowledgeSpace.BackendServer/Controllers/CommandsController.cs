@@ -1,4 +1,6 @@
-﻿using KnowledgeSpace.BackendServer.Data;
+﻿using KnowledgeSpace.BackendServer.Authorization;
+using KnowledgeSpace.BackendServer.Constants;
+using KnowledgeSpace.BackendServer.Data;
 using KnowledgeSpace.ViewModels.Systems.Commands;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -19,6 +21,7 @@ namespace KnowledgeSpace.BackendServer.Controllers
         [HttpGet]
         public async Task<IActionResult> GetCommands()
         {
+            var user = User.Identity.Name;
             var commands = _context.Commands;
             var commandVm = await commands.Select(i => new CommandVm()
     {
