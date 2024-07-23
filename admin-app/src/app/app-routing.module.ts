@@ -10,6 +10,11 @@ const routes: Routes = [
     },
     { path: 'login', loadChildren: () => import('./login/login.module').then((m) => m.LoginModule) },
     {
+        path: 'auth-callback',
+        loadChildren: () =>
+            import('./auth-callback/auth-callback-routing.module').then((m) => m.AuthCallbackRoutingModule)
+    },
+    {
         path: 'error',
         loadChildren: () => import('./server-error/server-error.module').then((m) => m.ServerErrorModule)
     },

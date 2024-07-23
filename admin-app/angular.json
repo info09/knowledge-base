@@ -126,5 +126,8 @@
         "cli": {
             "analytics": "0ccfd754-79ab-4bf6-b9ef-ef066366d8c7"
         }
+    },
+    "cli": {
+      "analytics": false
     }
 }
