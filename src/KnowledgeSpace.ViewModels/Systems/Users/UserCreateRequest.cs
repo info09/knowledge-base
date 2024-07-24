@@ -16,6 +16,6 @@ namespace KnowledgeSpace.ViewModels.Systems.Users
 
         public string LastName { get; set; }
 
-        public DateTime Dob { get; set; }
+        public string Dob { get; set; }
     }
 }

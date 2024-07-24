@@ -59,7 +59,7 @@ namespace KnowledgeSpace.BackendServer.Controllers
                 || x.PhoneNumber.Contains(filter));
             }
             var totalRecords = await query.CountAsync();
-            var items = await query.Skip((pageIndex - 1 * pageSize))
+            var items = await query.Skip((pageIndex - 1) * pageSize)
                 .Take(pageSize)
                 .Select(u => new UserVm()
                 {
@@ -111,7 +111,7 @@ namespace KnowledgeSpace.BackendServer.Controllers
             {
                 Id = Guid.NewGuid().ToString(),
                 Email = request.Email,
-                Dob = request.Dob,
+                Dob = DateTime.Parse(request.Dob),
                 UserName = request.UserName,
                 LastName = request.LastName,
                 FirstName = request.FirstName,
@@ -139,7 +139,7 @@ namespace KnowledgeSpace.BackendServer.Controllers
 
             user.FirstName = request.FirstName;
             user.LastName = request.LastName;
-            user.Dob = request.Dob;
+            user.Dob = DateTime.Parse(request.Dob);
 
             var result = await _userManager.UpdateAsync(user);
 
@@ -157,6 +157,13 @@ namespace KnowledgeSpace.BackendServer.Controllers
             var user = await _userManager.FindByIdAsync(id);
             if (user == null)
                 return NotFound();
+
+            var adminUsers = await _userManager.GetUsersInRoleAsync(SystemConstants.Roles.Admin);
+            var otherUsers = adminUsers.Where(i => i.Id != id).ToList();
+            if (otherUsers.Count == 0)
+            {
+                return BadRequest(new ApiBadRequestResponse("You cannot remove the only admin user remaining."));
+            }
 
             var result = await _userManager.DeleteAsync(user);
 
@@ -219,6 +226,60 @@ namespace KnowledgeSpace.BackendServer.Controllers
                 return NoContent();
 
             return BadRequest(result.Errors);
+        }
+
+        [HttpGet("{userId}/roles")]
+        [ClaimRequirement(FunctionCode.SYSTEM_USER, CommandCode.VIEW)]
+        public async Task<IActionResult> GetUserRole(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+                return NotFound(new ApiNotFoundResponse($"Cannot found user with id: {userId}"));
+
+            var roles = await _userManager.GetRolesAsync(user);
+            return Ok(roles);
+        }
+
+        [HttpPost("{userId}/roles")]
+        [ClaimRequirement(FunctionCode.SYSTEM_USER, CommandCode.UPDATE)]
+        public async Task<IActionResult> PostRolesToUser(string userId, [FromBody] RoleAssignRequest request)
+        {
+            if (request?.RoleNames?.Length == 0)
+                return BadRequest(new ApiBadRequestResponse("RoleNames cannot empty"));
+
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+                return NotFound(new ApiNotFoundResponse($"Cannot found user with id = {userId}"));
+
+            var result = await _userManager.AddToRolesAsync(user, request.RoleNames);
+
+            if (result.Succeeded)
+                return Ok();
+
+            return BadRequest(new ApiBadRequestResponse(result));
+        }
+
+        [HttpDelete("{userId}/roles")]
+        [ClaimRequirement(FunctionCode.SYSTEM_USER, CommandCode.UPDATE)]
+        public async Task<IActionResult> RemoveRolesFromUser(string userId, [FromQuery] RoleAssignRequest request)
+        {
+            if (request?.RoleNames?.Length == 0)
+                return BadRequest(new ApiBadRequestResponse("RoleNames cannot empty"));
+
+            if (request.RoleNames.Length == 1 && request.RoleNames[0] == SystemConstants.Roles.Admin)
+            {
+                return BadRequest(new ApiBadRequestResponse($"Cannot remove {SystemConstants.Roles.Admin} role"));
+            }
+
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+                return NotFound(new ApiNotFoundResponse($"Cannot found user with id: {userId}"));
+            var result = await _userManager.RemoveFromRolesAsync(user, request.RoleNames);
+
+            if (result.Succeeded)
+                return Ok();
+
+            return BadRequest(new ApiBadRequestResponse(result));
         }
     }
 }
