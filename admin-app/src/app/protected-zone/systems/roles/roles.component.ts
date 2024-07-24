@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { MessageConstants } from '../constants';
+import { MessageConstants } from '../../../shared/constants';
 import { RolesDetailComponent } from './roles-detail/roles-detail.component';
 import { NotificationService, RolesService } from '../../../shared/services';
 import { Pagination, Role } from '../../../shared/models';
