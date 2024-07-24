@@ -5,13 +5,8 @@ import { MonthlyNewKbsComponent } from './monthly-new-kbs/monthly-new-kbs.compon
 import { MonthlyNewCommentsComponent } from './monthly-new-comments/monthly-new-comments.component';
 import { StatisticsRoutingModule } from './statistics-routing.module';
 
-
-
 @NgModule({
   declarations: [MonthlyNewMembersComponent, MonthlyNewKbsComponent, MonthlyNewCommentsComponent],
-  imports: [
-    CommonModule,
-    StatisticsRoutingModule
-  ]
+  imports: [CommonModule, StatisticsRoutingModule]
 })
-export class StatisticsModule { }
+export class StatisticsModule {}

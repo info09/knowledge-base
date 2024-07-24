@@ -7,9 +7,10 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 
 import { LayoutRoutingModule } from './layout-routing.module';
 import { LayoutComponent } from './layout.component';
+import { MonthlyNewMembersComponent } from './statistics/monthly-new-members/monthly-new-members.component';
 
 @NgModule({
-    imports: [CommonModule, LayoutRoutingModule, TranslateModule, NgbDropdownModule],
-    declarations: [LayoutComponent, SidebarComponent, HeaderComponent]
+  imports: [CommonModule, LayoutRoutingModule, TranslateModule, NgbDropdownModule],
+  declarations: [LayoutComponent, SidebarComponent, HeaderComponent, MonthlyNewMembersComponent]
 })
-export class LayoutModule {}
+export class ProtectedZoneModule {}

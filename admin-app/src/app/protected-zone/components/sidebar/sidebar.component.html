@@ -1,27 +1,24 @@
-<nav class="sidebar" [ngClass]="{ sidebarPushRight: isActive, collapsed: collapsed }">
+<nav [ngClass]="{ sidebarPushRight: isActive, collapsed: collapsed }" class="sidebar">
     <div class="list-group">
         <div class="nested-menu" *ngFor="let item of functions">
-            <a class="list-group-item" routerLink="{{ item.url }}" (click)="addExpandClass(item.id)">
-                <i class="fa {{ item.iCon }}"></i>&nbsp;
+            <a [routerLink]="[item.url]" (click)="addExpandClass(item.id)" class="list-group-item">
+                <i class="fa {{item.iCon}}"></i>&nbsp;
                 <span>{{ item.name }}</span>
             </a>
-            <li class="nested" [class.expand]="showMenu === item.id" *ngFor="let subItem of item.children">
+            <li [class.expand]="showMenu === item.id" class="nested" *ngFor="let subItem of item.children">
                 <ul class="submenu">
                     <li>
-                        <a
-                            href="javascript:void(0)"
-                            routerLink="{{ subItem.url }}"
-                            [routerLinkActive]="['router-link-active']"
-                        >
-                            <i class="fa {{ subItem.iCon }}"></i>&nbsp;
+                        <a [routerLinkActive]="['router-link-active']" [routerLink]="[subItem.url]" href="javascript:void(0)" >
+                            <i class="fa {{subItem.iCon}}"></i>&nbsp;
                             <span>{{ subItem.name }}</span>
                         </a>
                     </li>
                 </ul>
             </li>
         </div>
+        
     </div>
-    <div class="toggle-button" [ngClass]="{ collapsed: collapsed }" (click)="toggleCollapsed()">
+    <div (click)="toggleCollapsed()" [ngClass]="{ collapsed: collapsed }" class="toggle-button">
         <i class="fa fa-fw fa-angle-double-{{ collapsed ? 'right' : 'left' }}"></i>&nbsp;
         <span>{{ 'Collapse Sidebar' | translate }}</span>
     </div>

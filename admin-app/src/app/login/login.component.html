@@ -1,10 +1,12 @@
 <div [@routerTransition] class="login-page">
-    <div class="row justify-content-md-center align-items-center h-100">
+    <div class="row justify-content-md-center">
         <div class="col-md-4">
-            <img class="user-avatar" src="/assets/images/logo.png" [style.width.px]="150" alt="logo"/>
-            <h1>Knowledge Space Administration</h1>
+            <img class="user-avatar" src="/assets/images/logo.png" width="150px" />
+            <h1>Hệ thống đăng nhập</h1>
             <form role="form">
-                <a class="btn rounded-btn" (click)="login()">{{ 'Log in' | translate }}</a>
+                <a (click)="login()" class="btn rounded-btn">{{
+                    'Log in' | translate
+                }}</a>
             </form>
         </div>
     </div>

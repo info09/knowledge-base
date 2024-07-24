@@ -1,1 +1,1 @@
-export * from './messages.constant';
+export * from './message.constant';
