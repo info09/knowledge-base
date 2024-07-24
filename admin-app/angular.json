@@ -17,8 +17,15 @@
                         "tsConfig": "src/tsconfig.app.json",
                         "polyfills": "src/polyfills.ts",
                         "assets": ["src/assets", "src/favicon.ico"],
-                        "styles": ["node_modules/font-awesome/css/font-awesome.css", "src/styles/app.scss"],
-                        "scripts": ["node_modules/chart.js/dist/Chart.js"],
+                        "styles": [
+                            "node_modules/font-awesome/css/font-awesome.css",
+                            "node_modules/primeng/resources/themes/lara-light-blue/theme.css",
+                            "node_modules/primeng/resources/primeng.min.css",
+                            "node_modules/alertifyjs/build/css/alertify.min.css",
+                            "node_modules/alertifyjs/build/css/themes/default.min.css",
+                            "src/styles/app.scss"
+                        ],
+                        "scripts": ["node_modules/chart.js/dist/Chart.js", "node_modules/alertifyjs/build/alertify.js"],
                         "allowedCommonJsDependencies": ["chart.js"],
                         "aot": false,
                         "vendorChunk": true,
@@ -128,6 +135,6 @@
         }
     },
     "cli": {
-      "analytics": false
+        "analytics": false
     }
 }

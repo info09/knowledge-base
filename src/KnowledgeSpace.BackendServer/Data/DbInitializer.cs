@@ -76,20 +76,20 @@ namespace KnowledgeSpace.BackendServer.Data
                 {
                     new Function {Id = "DASHBOARD", Name = "Trang chủ", ParentId = null,Url = "/dashboard", Icon="fa-dashboard", SortOrder = 0  },
 
-                    new Function {Id = "CONTENT",Name = "Nội dung",ParentId = null, Icon="fa-table", SortOrder = 1 },
+                    new Function {Id = "CONTENT",Name = "Nội dung",ParentId = null, Icon="fa-table", SortOrder = 1, Url ="" },
 
                     new Function {Id = "CONTENT_CATEGORY",Name = "Danh mục",ParentId ="CONTENT", SortOrder=2,Url = "/contents/categories", Icon="fa-edit"  },
                     new Function {Id = "CONTENT_KNOWLEDGEBASE",Name = "Bài viết",ParentId = "CONTENT",SortOrder = 3,Url = "/contents/knowledge-bases",Icon="fa-edit" },
                     new Function {Id = "CONTENT_COMMENT",Name = "Trang",ParentId = "CONTENT",SortOrder = 4,Url = "/contents/comments",Icon="fa-edit" },
                     new Function {Id = "CONTENT_REPORT",Name = "Báo xấu",ParentId = "CONTENT",SortOrder = 5,Url = "/contents/reports",Icon="fa-edit" },
 
-                    new Function {Id = "STATISTIC",Name = "Thống kê", ParentId = null, SortOrder = 1,Icon="fa-bar-chart-o" },
+                    new Function {Id = "STATISTIC",Name = "Thống kê", ParentId = null, SortOrder = 1,Icon="fa-bar-chart-o", Url ="" },
 
                     new Function {Id = "STATISTIC_MONTHLY_NEWMEMBER",Name = "Đăng ký từng tháng",ParentId = "STATISTIC",SortOrder = 2,Url = "/statistics/monthly-registers",Icon = "fa-wrench"},
                     new Function {Id = "STATISTIC_MONTHLY_NEWKB",Name = "Bài đăng hàng tháng",ParentId = "STATISTIC",SortOrder = 3,Url = "/statistics/monthly-newkbs",Icon = "fa-wrench"},
                     new Function {Id = "STATISTIC_MONTHLY_COMMENT",Name = "Comment theo tháng",ParentId = "STATISTIC",SortOrder = 4,Url = "/statistics/monthly-comments",Icon = "fa-wrench" },
 
-                    new Function {Id = "SYSTEM", Name = "Hệ thống", ParentId = null, Icon="fa-th-list", SortOrder = 1 },
+                    new Function {Id = "SYSTEM", Name = "Hệ thống", ParentId = null, Icon="fa-th-list", SortOrder = 1, Url ="" },
 
                     new Function {Id = "SYSTEM_USER", Name = "Người dùng",ParentId = "SYSTEM",Url = "/systems/users",Icon="fa-desktop", SortOrder = 2},
                     new Function {Id = "SYSTEM_ROLE", Name = "Nhóm quyền",ParentId = "SYSTEM",Url = "/systems/roles",Icon="fa-desktop", SortOrder = 3},
