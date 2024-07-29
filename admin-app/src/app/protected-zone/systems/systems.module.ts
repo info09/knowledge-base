@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
-import { FunctionsComponent } from './functions/functions.component';
 import { UsersComponent } from './users/users.component';
 import { RolesComponent } from './roles/roles.component';
 import { PermissionsComponent } from './permissions/permissions.component';
@@ -22,6 +21,9 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { KeyFilterModule } from 'primeng/keyfilter';
 import { UsersDetailComponent } from './users/users-detail/users-detail.component';
 import { RolesAssignComponent } from './users/roles-assign/roles-assign.component';
+import { TreeTableModule } from 'primeng/treetable';
+import { DropdownModule } from 'primeng/dropdown';
+import { FunctionsComponent } from './functions/functions.component';
 
 @NgModule({
     declarations: [
@@ -49,6 +51,8 @@ import { RolesAssignComponent } from './users/roles-assign/roles-assign.componen
         KeyFilterModule,
         CalendarModule,
         CheckboxModule,
+        TreeTableModule,
+        DropdownModule,
         ModalModule.forRoot()
     ],
     providers: [NotificationService, BsModalService, DatePipe]

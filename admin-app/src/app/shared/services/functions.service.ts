@@ -40,7 +40,12 @@ export class FunctionsService extends BaseService {
     getAll() {
         return this.http
             .get<Function[]>(`${environment.apiUrl}/api/functions`, { headers: this._sharedHeaders })
-            .pipe(catchError(this.handlerError));
+            .pipe(
+                map((response: Function[]) => {
+                    return response;
+                }),
+                catchError(this.handlerError)
+            );
     }
 
     getAllByParentId(parentId) {
