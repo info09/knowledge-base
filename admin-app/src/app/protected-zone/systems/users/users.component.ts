@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { UsersService, NotificationService } from '../../../shared/services';
 import { Pagination, User } from '../../../shared/models';
+import { MessageConstants } from '../../../shared/constants';
+import { UsersDetailComponent } from './users-detail/users-detail.component';
+import { RolesAssignComponent } from './roles-assign/roles-assign.component';
 
 @Component({
     selector: 'app-users',
@@ -112,8 +115,39 @@ export class UsersComponent implements OnInit {
         }
     }
 
-    showAddModal() {}
-    showEditModal() {}
+    showAddModal() {
+        this.bsModalRef = this.modalService.show(UsersDetailComponent, {
+            class: 'modal-lg',
+            backdrop: 'static'
+        });
+
+        this.bsModalRef.content.saved.subscribe((response) => {
+            this.bsModalRef.hide();
+            this.loadData();
+            this.selectedItems = [];
+        });
+    }
+    showEditModal() {
+        if (this.selectedItems.length == 0) {
+            this.notificationService.showError(MessageConstants.NOT_CHOOSE_ANY_RECORD);
+            return;
+        }
+
+        const initialState = {
+            entityId: this.selectedItems[0].id
+        };
+
+        this.bsModalRef = this.modalService.show(UsersDetailComponent, {
+            initialState: initialState,
+            class: 'modal-lg',
+            backdrop: 'static'
+        });
+
+        this.bsModalRef.content.saved.subscribe((response) => {
+            this.bsModalRef.hide();
+            this.loadData(response.id);
+        });
+    }
 
     deleteItems() {}
 
@@ -147,7 +181,54 @@ export class UsersComponent implements OnInit {
             }, 1000);
         }
     }
-    removeRoles() {}
+    removeRoles() {
+        const selectedRoleNames = this.selectedRoleItems;
+        this.notificationService.showConfirmation(MessageConstants.CONFIRM_DELETE_MSG, () =>
+            this.deleteRolesConfirm(selectedRoleNames)
+        );
+    }
 
-    addUserRole() {}
+    deleteRolesConfirm(roleNames) {
+        this.blockedPanelRole = true;
+        this.usersService.removeRolesFromUser(this.selectedItems[0].id, roleNames).subscribe(
+            () => {
+                this.loadUserRoles();
+                this.selectedRoleItems = [];
+                this.notificationService.showSuccess(MessageConstants.DELETED_OK_MSG);
+                setTimeout(() => {
+                    this.blockedPanelRole = false;
+                }, 1000);
+            },
+            (errr) => {
+                this.notificationService.showError(errr);
+                setTimeout(() => {
+                    this.blockedPanelRole = false;
+                }, 1000);
+            }
+        );
+    }
+
+    addUserRole() {
+        if (this.selectedItems.length === 0) {
+            this.notificationService.showError(MessageConstants.NOT_CHOOSE_ANY_RECORD);
+            return;
+        }
+
+        const initialState = {
+            existingRoles: this.userRoles,
+            userId: this.selectedItems[0].id
+        };
+
+        this.bsModalRef = this.modalService.show(RolesAssignComponent, {
+            initialState: initialState,
+            class: 'modal-lg',
+            backdrop: 'static'
+        });
+
+        this.bsModalRef.content.chosenEvent.subscribe((res: any[]) => {
+            this.bsModalRef.hide();
+            this.loadUserRoles();
+            this.selectedRoleItems = [];
+        });
+    }
 }
