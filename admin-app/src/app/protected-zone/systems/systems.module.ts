@@ -24,6 +24,8 @@ import { RolesAssignComponent } from './users/roles-assign/roles-assign.componen
 import { TreeTableModule } from 'primeng/treetable';
 import { DropdownModule } from 'primeng/dropdown';
 import { FunctionsComponent } from './functions/functions.component';
+import { FunctionsDetailComponent } from './functions/functions-detail/functions-detail.component';
+import { CommandsAssignComponent } from './functions/commands-assign/commands-assign.component';
 
 @NgModule({
     declarations: [
@@ -33,7 +35,9 @@ import { FunctionsComponent } from './functions/functions.component';
         PermissionsComponent,
         RolesDetailComponent,
         UsersDetailComponent,
-        RolesAssignComponent
+        RolesAssignComponent,
+        FunctionsDetailComponent,
+        CommandsAssignComponent
     ],
     imports: [
         CommonModule,

@@ -88,7 +88,7 @@ export class FunctionsService extends BaseService {
     deleteCommandsFromFunction(functionId, commandAssign: CommandAssign) {
         let query = '';
         for (const commandId of commandAssign.commandIds) {
-            query += 'commandIds' + '=' + commandId + '&';
+            query += 'CommandIds' + '=' + commandId + '&';
         }
         return this.http
             .delete(

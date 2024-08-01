@@ -287,7 +287,7 @@ namespace KnowledgeSpace.BackendServer.Controllers
         {
             foreach (var commandId in request.CommandIds)
             {
-                var commandInFunction = await _context.CommandInFunctions.FindAsync(functionId, commandId);
+                var commandInFunction = await _context.CommandInFunctions.AsNoTracking().FirstOrDefaultAsync(i => i.CommandId == commandId && i.FunctionId == functionId);
                 if (commandInFunction == null)
                     return BadRequest(new ApiBadRequestResponse($"This command is not existed in function"));
 
@@ -296,7 +296,9 @@ namespace KnowledgeSpace.BackendServer.Controllers
                     CommandId = commandId,
                     FunctionId = functionId
                 };
+
                 _context.CommandInFunctions.Remove(entity);
+
             }
 
 
