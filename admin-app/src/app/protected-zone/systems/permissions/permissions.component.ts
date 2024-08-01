@@ -148,7 +148,6 @@ export class PermissionsComponent implements OnInit, OnDestroy {
     }
     checkChanged(checked: boolean, commandId: string, functionId: string, parentId: string) {
         if (commandId === SystemConstants.VIEW_ACTION) {
-            this.selectedViews = [];
             if (checked) {
                 this.selectedViews.push(functionId);
                 if (parentId === null) {
@@ -173,7 +172,6 @@ export class PermissionsComponent implements OnInit, OnDestroy {
                 }
             }
         } else if (commandId === SystemConstants.CREATE_ACTION) {
-            this.selectedCreates = [];
             if (checked) {
                 this.selectedCreates.push(functionId);
                 if (parentId === null) {
@@ -198,8 +196,6 @@ export class PermissionsComponent implements OnInit, OnDestroy {
                 }
             }
         } else if (commandId === SystemConstants.UPDATE_ACTION) {
-            this.selectedUpdates = [];
-
             if (checked) {
                 this.selectedUpdates.push(functionId);
                 if (parentId === null) {
@@ -224,8 +220,6 @@ export class PermissionsComponent implements OnInit, OnDestroy {
                 }
             }
         } else if (commandId === SystemConstants.DELETE_ACTION) {
-            this.selectedDeletes = [];
-
             if (checked) {
                 this.selectedDeletes.push(functionId);
                 if (parentId === null) {
@@ -250,8 +244,6 @@ export class PermissionsComponent implements OnInit, OnDestroy {
                 }
             }
         } else if (commandId === SystemConstants.APPROVE_ACTION) {
-            this.selectedApproves = [];
-
             if (checked) {
                 this.selectedApproves.push(functionId);
                 if (parentId === null) {

@@ -104,6 +104,9 @@
                     icon="fa fa-plus"
                     *ngIf="selectedItems.length == 1"
                     (click)="addCommandsToFunction()"
+                    appPermission
+                    appFunction="SYSTEM_FUNCTION"
+                    appAction="UPDATE"
                 ></button>
                 <button
                     pButton
@@ -113,6 +116,8 @@
                     class="ui-button-danger"
                     *ngIf="selectedCommandItems.length > 0"
                     (click)="removeCommands()"
+                    appFunction="SYSTEM_FUNCTION"
+                    appAction="UPDATE"
                 ></button>
             </div>
         </p-header>

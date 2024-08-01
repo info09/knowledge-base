@@ -9,7 +9,9 @@ using KnowledgeSpace.ViewModels.Systems.Roles;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -168,21 +170,61 @@ namespace KnowledgeSpace.BackendServer.Controllers
         [ClaimRequirement(FunctionCode.SYSTEM_ROLE, CommandCode.UPDATE)]
         public async Task<IActionResult> PutPermissionByRoleId(string roleId, [FromBody] UpdatePermissionRequest request)
         {
-            var newPermissions = new List<Permission>();
-            foreach (var p in request.Permissions)
+            try
             {
-                newPermissions.Add(new Permission(p.FunctionId, roleId, p.CommandId));
-            }
+                var newPermissions = new List<Permission>();
+                foreach (var p in request.Permissions)
+                {
+                    newPermissions.Add(new Permission(p.FunctionId, roleId, p.CommandId));
+                }
 
-            var existingPermission = _context.Permissions.Where(i => i.RoleId == roleId);
-            _context.Permissions.RemoveRange(existingPermission);
-            _context.Permissions.AddRange(newPermissions);
-            var result = await _context.SaveChangesAsync();
-            if (result > 1)
-            {
-                return NoContent();
+                var existingPermission = _context.Permissions.Where(i => i.RoleId == roleId);
+                _context.Permissions.RemoveRange(existingPermission);
+                _context.Permissions.AddRange(newPermissions.Distinct(new MyPermissionComparer()));
+                var result = await _context.SaveChangesAsync();
+                if (result > 1)
+                {
+                    return NoContent();
+                }
+                return BadRequest(new ApiBadRequestResponse("Save permission failed"));
             }
-            return BadRequest(new ApiBadRequestResponse("Save permission failed"));
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+            
+        }
+    }
+
+    internal class MyPermissionComparer : IEqualityComparer<Permission>
+    {
+        // Items are equal if their ids are equal.
+        public bool Equals(Permission x, Permission y)
+        {
+            // Check whether the compared objects reference the same data.
+            if (Object.ReferenceEquals(x, y)) return true;
+
+            // Check whether any of the compared objects is null.
+            if (Object.ReferenceEquals(x, null) || Object.ReferenceEquals(y, null))
+                return false;
+
+            //Check whether the items properties are equal.
+            return x.CommandId == y.CommandId && x.FunctionId == x.FunctionId && x.RoleId == x.RoleId;
+        }
+
+        // If Equals() returns true for a pair of objects
+        // then GetHashCode() must return the same value for these objects.
+
+        public int GetHashCode(Permission permission)
+        {
+            //Check whether the object is null
+            if (Object.ReferenceEquals(permission, null)) return 0;
+
+            //Get hash code for the ID field.
+            int hashProductId = (permission.CommandId + permission.FunctionId + permission.RoleId).GetHashCode();
+
+            return hashProductId;
         }
     }
 }

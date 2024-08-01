@@ -26,6 +26,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { FunctionsComponent } from './functions/functions.component';
 import { FunctionsDetailComponent } from './functions/functions-detail/functions-detail.component';
 import { CommandsAssignComponent } from './functions/commands-assign/commands-assign.component';
+import { SharedDirectivesModule } from '../../shared/directives/shared-directives.module';
 
 @NgModule({
     declarations: [
@@ -57,6 +58,7 @@ import { CommandsAssignComponent } from './functions/commands-assign/commands-as
         CheckboxModule,
         TreeTableModule,
         DropdownModule,
+        SharedDirectivesModule,
         ModalModule.forRoot()
     ],
     providers: [NotificationService, BsModalService, DatePipe]
