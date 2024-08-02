@@ -1,4 +1,6 @@
-﻿using System;
+﻿using KnowledgeSpace.ViewModels.Contents.Attachments;
+using System;
+using System.Collections.Generic;
 
 namespace KnowledgeSpace.ViewModels.Contents.KnowledgeBases
 {
@@ -30,7 +32,7 @@ namespace KnowledgeSpace.ViewModels.Contents.KnowledgeBases
 
         public string OwnerUserId { get; set; }
 
-        public string Labels { get; set; }
+        public string[] Labels { get; set; }
 
         public DateTime CreateDate { get; set; }
 
@@ -41,5 +43,7 @@ namespace KnowledgeSpace.ViewModels.Contents.KnowledgeBases
         public int? NumberOfVotes { get; set; }
 
         public int? NumberOfReports { get; set; }
+
+        public List<AttachmentVm> Attachments { set; get; }
     }
 }

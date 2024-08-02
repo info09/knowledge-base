@@ -1,7 +1,14 @@
 ﻿using KnowledgeSpace.BackendServer.Data.Entities;
+using KnowledgeSpace.BackendServer.Data.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace KnowledgeSpace.BackendServer.Data
 {
@@ -31,6 +38,28 @@ namespace KnowledgeSpace.BackendServer.Data
                        .HasKey(c => new { c.CommandId, c.FunctionId });
 
             builder.HasSequence("KnowledgeBaseSequence");
+        }
+
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            IEnumerable<EntityEntry> modified = ChangeTracker.Entries().Where(i => i.State == EntityState.Modified || i.State == EntityState.Added);
+
+            foreach (EntityEntry entry in modified) 
+            {
+                if(entry.Entity is IDateTracking changedOrAdded)
+                {
+                    if(entry.State == EntityState.Added)
+                    {
+                        changedOrAdded.CreateDate = DateTime.UtcNow;
+                    }
+                    else
+                    {
+                        changedOrAdded.LastModifiedDate = DateTime.UtcNow;
+                    }
+                }
+            }
+
+            return base.SaveChangesAsync(cancellationToken);
         }
 
         public DbSet<Command> Commands { set; get; }
