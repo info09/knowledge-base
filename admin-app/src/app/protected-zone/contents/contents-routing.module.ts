@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Routes, RouterModule } from '@angular/router';
+import { KnowledgeBasesComponent } from './knowledge-bases/knowledge-bases.component';
 import { CategoriesComponent } from './categories/categories.component';
 import { CommentsComponent } from './comments/comments.component';
-import { KnowledgeBasesComponent } from './knowledge-bases/knowledge-bases.component';
 import { ReportsComponent } from './reports/reports.component';
 import { AuthGuard } from '../../shared';
 
@@ -23,6 +23,14 @@ const routes: Routes = [
         },
         canActivate: [AuthGuard]
     },
+    // {
+    //     path: 'knowledge-bases-detail/:id',
+    //     component: KnowledgeBasesDetailComponent,
+    //     data: {
+    //         functionCode: 'CONTENT_KNOWLEDGEBASE'
+    //     },
+    //     canActivate: [AuthGuard]
+    // },
     {
         path: 'categories',
         component: CategoriesComponent,
