@@ -180,9 +180,10 @@ namespace KnowledgeSpace.BackendServer.Controllers
 
                 var existingPermission = _context.Permissions.Where(i => i.RoleId == roleId);
                 _context.Permissions.RemoveRange(existingPermission);
-                _context.Permissions.AddRange(newPermissions.Distinct(new MyPermissionComparer()));
                 var result = await _context.SaveChangesAsync();
-                if (result > 1)
+                _context.Permissions.AddRange(newPermissions.Distinct(new MyPermissionComparer()));
+                var result1 = await _context.SaveChangesAsync();
+                if (result1 > 1)
                 {
                     return NoContent();
                 }

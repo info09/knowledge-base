@@ -146,9 +146,9 @@ export class PermissionsComponent implements OnInit, OnDestroy {
             );
         }
     }
-    checkChanged(checked: boolean, commandId: string, functionId: string, parentId: string) {
+    checkChanged(event, commandId: string, functionId: string, parentId: string) {
         if (commandId === SystemConstants.VIEW_ACTION) {
-            if (checked) {
+            if (event.checked) {
                 this.selectedViews.push(functionId);
                 if (parentId === null) {
                     const childFunctions = this.flattenFunctions
@@ -172,7 +172,7 @@ export class PermissionsComponent implements OnInit, OnDestroy {
                 }
             }
         } else if (commandId === SystemConstants.CREATE_ACTION) {
-            if (checked) {
+            if (event.checked) {
                 this.selectedCreates.push(functionId);
                 if (parentId === null) {
                     const childFunctions = this.flattenFunctions
@@ -196,7 +196,7 @@ export class PermissionsComponent implements OnInit, OnDestroy {
                 }
             }
         } else if (commandId === SystemConstants.UPDATE_ACTION) {
-            if (checked) {
+            if (event.checked) {
                 this.selectedUpdates.push(functionId);
                 if (parentId === null) {
                     const childFunctions = this.flattenFunctions
@@ -220,7 +220,7 @@ export class PermissionsComponent implements OnInit, OnDestroy {
                 }
             }
         } else if (commandId === SystemConstants.DELETE_ACTION) {
-            if (checked) {
+            if (event.checked) {
                 this.selectedDeletes.push(functionId);
                 if (parentId === null) {
                     const childFunctions = this.flattenFunctions
@@ -244,7 +244,7 @@ export class PermissionsComponent implements OnInit, OnDestroy {
                 }
             }
         } else if (commandId === SystemConstants.APPROVE_ACTION) {
-            if (checked) {
+            if (event.checked) {
                 this.selectedApproves.push(functionId);
                 if (parentId === null) {
                     const childFunctions = this.flattenFunctions
@@ -269,30 +269,30 @@ export class PermissionsComponent implements OnInit, OnDestroy {
             }
         }
     }
-    selectAll(checked: boolean, uniqueCode: string) {
+    selectAll(event, uniqueCode: string) {
         if (uniqueCode === SystemConstants.VIEW_ACTION) {
             this.selectedViews = [];
-            if (checked) {
+            if (event.checked) {
                 this.selectedViews.push(...this.flattenFunctions.map((x) => x.id));
             }
         } else if (uniqueCode === SystemConstants.CREATE_ACTION) {
             this.selectedCreates = [];
-            if (checked) {
+            if (event.checked) {
                 this.selectedCreates.push(...this.flattenFunctions.map((x) => x.id));
             }
         } else if (uniqueCode === SystemConstants.UPDATE_ACTION) {
             this.selectedUpdates = [];
-            if (checked) {
+            if (event.checked) {
                 this.selectedUpdates.push(...this.flattenFunctions.map((x) => x.id));
             }
         } else if (uniqueCode === SystemConstants.DELETE_ACTION) {
             this.selectedDeletes = [];
-            if (checked) {
+            if (event.checked) {
                 this.selectedDeletes.push(...this.flattenFunctions.map((x) => x.id));
             }
         } else if (uniqueCode === SystemConstants.APPROVE_ACTION) {
             this.selectedApproves = [];
-            if (checked) {
+            if (event.checked) {
                 this.selectedApproves.push(...this.flattenFunctions.map((x) => x.id));
             }
         }
