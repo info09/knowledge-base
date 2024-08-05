@@ -6,3 +6,4 @@ export * from './functions.service';
 export * from './roles.service';
 export * from './notification.service';
 export * from './command.service';
+export * from './comment.service';

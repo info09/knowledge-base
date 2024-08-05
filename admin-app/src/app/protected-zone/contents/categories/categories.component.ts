@@ -3,16 +3,17 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Subscription } from 'rxjs';
 import { CategoriesService } from '../../../shared/services/category.service';
 import { Category, Pagination } from '../../../shared/models';
-import { NotificationService } from '../../../shared/services';
+import { BaseService, NotificationService } from '../../../shared/services';
 import { MessageConstants } from '../../../shared/constants';
 import { CategoriesDetailComponent } from './categories-detail/categories-detail.component';
+import { BaseComponent } from '../../base/base.component';
 
 @Component({
     selector: 'app-categories',
     templateUrl: './categories.component.html',
     styleUrls: ['./categories.component.css']
 })
-export class CategoriesComponent implements OnInit, OnDestroy {
+export class CategoriesComponent extends BaseComponent implements OnInit, OnDestroy {
     public subscription = new Subscription();
     //Default
     public blockedPanel = false;
@@ -30,12 +31,15 @@ export class CategoriesComponent implements OnInit, OnDestroy {
         private categoriesService: CategoriesService,
         private modalService: BsModalService,
         private notificationService: NotificationService
-    ) {}
+    ) {
+        super('CONTENT_CATEGORY');
+    }
     ngOnDestroy(): void {
         this.subscription.unsubscribe();
     }
 
     ngOnInit(): void {
+        super.ngOnInit();
         this.loadData();
     }
 
