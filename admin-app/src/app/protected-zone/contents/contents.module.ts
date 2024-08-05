@@ -27,6 +27,7 @@ import { SharedDirectivesModule } from '../../shared/directives/shared-directive
 import { BsModalService, ModalModule } from 'ngx-bootstrap/modal';
 import { NotificationService } from '../../shared/services';
 import { CategoriesDetailComponent } from './categories/categories-detail/categories-detail.component';
+import { KnowledgeBasesDetailComponent } from './knowledge-bases/knowledge-bases-detail/knowledge-bases-detail.component';
 
 @NgModule({
     declarations: [
@@ -34,7 +35,8 @@ import { CategoriesDetailComponent } from './categories/categories-detail/catego
         KnowledgeBasesComponent,
         CommentsComponent,
         ReportsComponent,
-        CategoriesDetailComponent
+        CategoriesDetailComponent,
+        KnowledgeBasesDetailComponent
     ],
     imports: [
         CommonModule,

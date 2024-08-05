@@ -10,3 +10,4 @@ export * from './permission-update-request.model';
 export * from './permission-screen.model';
 export * from './category.model';
 export * from './knowledge-base.model';
+export * from './attachment.model';
