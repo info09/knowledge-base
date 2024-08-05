@@ -5,6 +5,7 @@ import { CategoriesComponent } from './categories/categories.component';
 import { CommentsComponent } from './comments/comments.component';
 import { ReportsComponent } from './reports/reports.component';
 import { AuthGuard } from '../../shared';
+import { KnowledgeBasesDetailComponent } from './knowledge-bases/knowledge-bases-detail/knowledge-bases-detail.component';
 
 const routes: Routes = [
     {
@@ -23,14 +24,14 @@ const routes: Routes = [
         },
         canActivate: [AuthGuard]
     },
-    // {
-    //     path: 'knowledge-bases-detail/:id',
-    //     component: KnowledgeBasesDetailComponent,
-    //     data: {
-    //         functionCode: 'CONTENT_KNOWLEDGEBASE'
-    //     },
-    //     canActivate: [AuthGuard]
-    // },
+    {
+        path: 'knowledge-bases-detail/:id',
+        component: KnowledgeBasesDetailComponent,
+        data: {
+            functionCode: 'CONTENT_KNOWLEDGEBASE'
+        },
+        canActivate: [AuthGuard]
+    },
     {
         path: 'categories',
         component: CategoriesComponent,

@@ -2,7 +2,7 @@ import { Pagination } from './../models/pagination.model';
 import { Injectable } from '@angular/core';
 import { BaseService } from './base.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../environments/environment';
 import { catchError, map } from 'rxjs/operators';
 import { KnowledgeBase } from '../models';
 

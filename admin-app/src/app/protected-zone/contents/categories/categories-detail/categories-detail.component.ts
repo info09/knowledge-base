@@ -99,7 +99,6 @@ export class CategoriesDetailComponent implements OnInit, OnDestroy {
         this.blockedPanel = true;
         if (this.entityId) {
             let data = this.entityForm.getRawValue();
-            data.parentId = data.parentId !== '' ? data.parentId.id : null;
             this.subscription.add(
                 this.categoriesService.update(this.entityId, data).subscribe(
                     () => {
@@ -121,7 +120,6 @@ export class CategoriesDetailComponent implements OnInit, OnDestroy {
             );
         } else {
             let data = this.entityForm.getRawValue();
-            data.parentId = data.parentId !== '' ? data.parentId.id : null;
             this.subscription.add(
                 this.categoriesService.add(data).subscribe(
                     () => {
