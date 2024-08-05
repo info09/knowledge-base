@@ -30,7 +30,7 @@ export class CategoriesDetailComponent implements OnInit, OnDestroy {
             name: new FormControl('', Validators.compose([Validators.required, Validators.maxLength(50)])),
             seoAlias: new FormControl('', Validators.compose([Validators.required])),
             seoDescription: new FormControl(''),
-            sortOrder: new FormControl(),
+            sortOrder: new FormControl(null, Validators.required),
             parentId: new FormControl('')
         });
         this.subscription.add(
@@ -69,7 +69,8 @@ export class CategoriesDetailComponent implements OnInit, OnDestroy {
         name: [
             { type: 'required', message: 'Trường này bắt buộc' },
             { type: 'maxlength', message: 'Bạn không được nhập quá 30 kí tự' }
-        ]
+        ],
+        sortOrder: [{ type: 'required', message: 'Trường này bắt buộc' }]
     };
 
     private loadFormDetails(id: any) {
