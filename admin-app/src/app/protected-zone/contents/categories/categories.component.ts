@@ -71,7 +71,17 @@ export class CategoriesComponent implements OnInit, OnDestroy {
         }
     }
 
-    showAddModal() {}
+    showAddModal() {
+        this.bsModalRef = this.modalService.show(CategoriesDetailComponent, {
+            class: 'modal-lg',
+            backdrop: 'static'
+        });
+        this.bsModalRef.content.savedEvent.subscribe((response) => {
+            this.bsModalRef.hide();
+            this.loadData();
+            this.selectedItems = [];
+        });
+    }
 
     showEditModal() {
         if (this.selectedItems.length === 0) {

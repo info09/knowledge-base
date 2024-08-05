@@ -6,6 +6,7 @@ import { NotificationService, UtilitiesService } from '../../../../shared/servic
 import { CategoriesService } from '../../../../shared/services/category.service';
 import { MessageConstants } from '../../../../shared/constants';
 import { Category } from '../../../../shared/models';
+import { SelectItem } from 'primeng/api/selectitem';
 
 @Component({
     selector: 'app-categories-detail',
@@ -33,8 +34,11 @@ export class CategoriesDetailComponent implements OnInit, OnDestroy {
             parentId: new FormControl('')
         });
         this.subscription.add(
-            this.categoriesService.getAll().subscribe((response: any) => {
-                this.categories = response;
+            this.categoriesService.getAll().subscribe((response: Category[]) => {
+                response.forEach((element) => {
+                    this.categories.push({ label: element.name, value: element.id });
+                });
+
                 if (this.entityId) {
                     this.dialogTitle = 'Cập nhật';
                     this.loadFormDetails(this.entityId);
@@ -54,7 +58,7 @@ export class CategoriesDetailComponent implements OnInit, OnDestroy {
 
     public blockedPanel = false;
 
-    public categories: [];
+    public categories: SelectItem[] = [];
 
     // Validate
     validation_messages = {
@@ -95,7 +99,7 @@ export class CategoriesDetailComponent implements OnInit, OnDestroy {
         this.blockedPanel = true;
         if (this.entityId) {
             let data = this.entityForm.getRawValue();
-            data.parentId = data.parentId.id;
+            data.parentId = data.parentId !== '' ? data.parentId.id : null;
             this.subscription.add(
                 this.categoriesService.update(this.entityId, data).subscribe(
                     () => {
@@ -116,8 +120,10 @@ export class CategoriesDetailComponent implements OnInit, OnDestroy {
                 )
             );
         } else {
+            let data = this.entityForm.getRawValue();
+            data.parentId = data.parentId !== '' ? data.parentId.id : null;
             this.subscription.add(
-                this.categoriesService.add(this.entityForm.getRawValue()).subscribe(
+                this.categoriesService.add(data).subscribe(
                     () => {
                         this.savedEvent.emit(this.entityForm.value);
                         this.notificationService.showSuccess(MessageConstants.CREATED_OK_MSG);
@@ -138,5 +144,8 @@ export class CategoriesDetailComponent implements OnInit, OnDestroy {
         }
     }
 
-    generateSeoAlias() {}
+    generateSeoAlias() {
+        const seoAlias = this.utilitiesService.MakeSeoTitle(this.entityForm.controls['name'].value);
+        this.entityForm.controls['seoAlias'].setValue(seoAlias);
+    }
 }
