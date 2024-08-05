@@ -32,4 +32,8 @@
 	  <ProjectReference Include="..\KnowledgeSpace.ViewModels\KnowledgeSpace.ViewModels.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="wwwroot\user-attachments\" />
+	</ItemGroup>
+
 </Project>
