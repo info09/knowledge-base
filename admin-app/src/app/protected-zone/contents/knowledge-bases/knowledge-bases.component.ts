@@ -5,13 +5,14 @@ import { NotificationService } from '../../../shared/services';
 import { KnowledgeBasesService } from '../../../shared/services/knowledge-base.service';
 import { KnowledgeBase, Pagination } from '../../../shared/models';
 import { MessageConstants } from '../../../shared/constants';
+import { BaseComponent } from '../../base/base.component';
 
 @Component({
     selector: 'app-knowledge-bases',
     templateUrl: './knowledge-bases.component.html',
     styleUrls: ['./knowledge-bases.component.css']
 })
-export class KnowledgeBasesComponent implements OnInit, OnDestroy {
+export class KnowledgeBasesComponent extends BaseComponent implements OnInit, OnDestroy {
     private subscription = new Subscription();
     //Default
     public blockedPanel = false;
@@ -29,12 +30,15 @@ export class KnowledgeBasesComponent implements OnInit, OnDestroy {
         private knowledgeBasesService: KnowledgeBasesService,
         private notificationService: NotificationService,
         private router: Router
-    ) {}
+    ) {
+        super('CONTENT_KNOWLEDGEBASE');
+    }
     ngOnDestroy(): void {
         this.subscription.unsubscribe();
     }
 
     ngOnInit(): void {
+        super.ngOnInit();
         this.loadData();
     }
 
@@ -87,5 +91,14 @@ export class KnowledgeBasesComponent implements OnInit, OnDestroy {
             return;
         }
         this.router.navigateByUrl('/contents/knowledge-bases-detail/' + this.selectedItems[0].id);
+    }
+
+    viewComments() {
+        if (this.selectedItems.length == 0) {
+            this.notificationService.showError(MessageConstants.NOT_CHOOSE_ANY_RECORD);
+            return;
+        }
+
+        this.router.navigateByUrl(`/contents/knowledge-bases/${this.selectedItems[0].id}/comments`);
     }
 }

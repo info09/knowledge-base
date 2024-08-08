@@ -30,7 +30,10 @@ namespace KnowledgeSpace.BackendServer.Controllers
                 query = query.Where(x => x.c.Content.Contains(filter));
 
             var totalRecords = await query.CountAsync();
-            var items = await query.Skip((pageIndex - 1) * pageSize)
+            //var a = await query.ToListAsync();
+            try
+            {
+                var items = await query.Skip((pageIndex - 1) * pageSize)
                 .Take(pageSize)
                 .Select(c => new CommentVm()
                 {
@@ -40,16 +43,23 @@ namespace KnowledgeSpace.BackendServer.Controllers
                     KnowledgeBaseId = c.c.KnowledgeBaseId,
                     LastModifiedDate = c.c.LastModifiedDate,
                     OwnerUserId = c.c.OwnerUserId,
-                    OwnerName = string.Format($"{c.u.FirstName} {c.u.LastName}")
+                    OwnerName = $"{c.u.FirstName} {c.u.LastName}"
                 })
                 .ToListAsync();
 
-            var pagination = new Pagination<CommentVm>
+                var pagination = new Pagination<CommentVm>
+                {
+                    Items = items,
+                    TotalRecords = totalRecords,
+                };
+                return Ok(pagination);
+            }
+            catch (System.Exception ex)
             {
-                Items = items,
-                TotalRecords = totalRecords,
-            };
-            return Ok(pagination);
+
+                throw;
+            }
+            
         }
 
         [HttpGet("{knowledgeBaseId}/comments/{commentId}")]
