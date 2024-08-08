@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { CategoriesComponent } from './categories/categories.component';
 import { KnowledgeBasesComponent } from './knowledge-bases/knowledge-bases.component';
-import { CommentsComponent } from './comments/comments.component';
 import { ReportsComponent } from './reports/reports.component';
 import { ContentsRoutingModule } from './contents-routing.module';
 import { PanelModule } from 'primeng/panel';
@@ -28,15 +27,18 @@ import { BsModalService, ModalModule } from 'ngx-bootstrap/modal';
 import { NotificationService } from '../../shared/services';
 import { CategoriesDetailComponent } from './categories/categories-detail/categories-detail.component';
 import { KnowledgeBasesDetailComponent } from './knowledge-bases/knowledge-bases-detail/knowledge-bases-detail.component';
+import { CommentsComponent } from './knowledge-bases/comments/comments.component';
+import { CommentsDetailComponent } from './knowledge-bases/comments-detail/comments-detail.component';
 
 @NgModule({
     declarations: [
         CategoriesComponent,
         KnowledgeBasesComponent,
-        CommentsComponent,
         ReportsComponent,
         CategoriesDetailComponent,
-        KnowledgeBasesDetailComponent
+        KnowledgeBasesDetailComponent,
+        CommentsComponent,
+        CommentsDetailComponent
     ],
     imports: [
         CommonModule,
