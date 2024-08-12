@@ -7,3 +7,4 @@ export * from './roles.service';
 export * from './notification.service';
 export * from './command.service';
 export * from './comment.service';
+export * from './report.service';

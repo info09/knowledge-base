@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { CategoriesComponent } from './categories/categories.component';
 import { KnowledgeBasesComponent } from './knowledge-bases/knowledge-bases.component';
-import { ReportsComponent } from './reports/reports.component';
+import { ReportsComponent } from './knowledge-bases/reports/reports.component';
 import { ContentsRoutingModule } from './contents-routing.module';
 import { PanelModule } from 'primeng/panel';
 import { ButtonModule } from 'primeng/button';

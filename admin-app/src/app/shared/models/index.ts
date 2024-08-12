@@ -12,3 +12,4 @@ export * from './category.model';
 export * from './knowledge-base.model';
 export * from './attachment.model';
 export * from './comment.model';
+export * from './report.model';
