@@ -1,38 +1,42 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { Comment } from '../../../../shared/models';
 import { BsModalRef } from 'ngx-bootstrap/modal';
-import { CommentsService } from '../../../../shared/services';
+import { Subscription } from 'rxjs';
+import { ReportsService } from '../../../../shared/services';
+import { Report } from '../../../../shared/models';
 import { FormGroup } from '@angular/forms';
 
 @Component({
-    selector: 'app-comments-detail',
-    templateUrl: './comments-detail.component.html',
-    styleUrls: ['./comments-detail.component.scss']
+    selector: 'app-reports-detail',
+    templateUrl: './reports-detail.component.html',
+    styleUrls: ['./reports-detail.component.scss']
 })
-export class CommentsDetailComponent implements OnInit, OnDestroy {
-    constructor(public bsModalRef: BsModalRef, private commentsService: CommentsService) {}
+export class ReportsDetailComponent implements OnInit, OnDestroy {
+    constructor(public bsModalRef: BsModalRef, private reportServices: ReportsService) {}
 
     private subscription = new Subscription();
     public dialogTitle: string;
     public knowledgeBaseId: number;
-    public entityId: number;
+    public commentId: number;
     public btnDisabled = false;
     public blockedPanel = false;
-    public comment: Comment;
     public entityForm: FormGroup;
+    public report: Report;
 
-    ngOnInit() {
-        if (this.entityId) {
-            this.loadFormDetails(this.entityId, this.knowledgeBaseId);
+    ngOnDestroy(): void {
+        this.subscription.unsubscribe();
+    }
+    ngOnInit(): void {
+        if (this.commentId) {
+            this.loadFormDetails(this.commentId, this.knowledgeBaseId);
         }
     }
+
     private loadFormDetails(commentId, knowledgeBaseId) {
         this.blockedPanel = true;
         this.subscription.add(
-            this.commentsService.getDetail(knowledgeBaseId, commentId).subscribe(
-                (response: Comment) => {
-                    this.comment = response;
+            this.reportServices.getDetail(knowledgeBaseId, commentId).subscribe(
+                (response: Report) => {
+                    this.report = response;
                     setTimeout(() => {
                         this.blockedPanel = false;
                         this.btnDisabled = false;
@@ -46,8 +50,5 @@ export class CommentsDetailComponent implements OnInit, OnDestroy {
                 }
             )
         );
-    }
-    ngOnDestroy(): void {
-        this.subscription.unsubscribe();
     }
 }

@@ -6,6 +6,7 @@ import { BaseComponent } from '../../../../protected-zone/base/base.component';
 import { NotificationService, ReportsService } from '../../../../shared/services';
 import { Pagination, Report } from '../../../../shared/models';
 import { MessageConstants } from '../../../../shared/constants';
+import { ReportsDetailComponent } from '../reports-detail/reports-detail.component';
 
 @Component({
     selector: 'app-reports',
@@ -89,7 +90,26 @@ export class ReportsComponent extends BaseComponent implements OnInit, OnDestroy
         this.loadData();
     }
 
-    showDetailModel() {}
+    showDetailModel() {
+        if (this.selectedItems.length === 0) {
+            this.notificationService.showError(MessageConstants.NOT_CHOOSE_ANY_RECORD);
+            return;
+        }
+        const initialState = {
+            commentId: this.selectedItems[0].id
+        };
+        this.bsModalRef = this.modalService.show(ReportsDetailComponent, {
+            initialState: initialState,
+            class: 'modal-lg',
+            backdrop: 'static'
+        });
+
+        this.subscription.add(
+            this.bsModalRef.content.savedEvent.subscribe((response) => {
+                this.bsModalRef.hide();
+            })
+        );
+    }
 
     deleteItems() {
         const id = this.selectedItems[0].id;

@@ -29,6 +29,7 @@ import { CategoriesDetailComponent } from './categories/categories-detail/catego
 import { KnowledgeBasesDetailComponent } from './knowledge-bases/knowledge-bases-detail/knowledge-bases-detail.component';
 import { CommentsComponent } from './knowledge-bases/comments/comments.component';
 import { CommentsDetailComponent } from './knowledge-bases/comments-detail/comments-detail.component';
+import { ReportsDetailComponent } from './knowledge-bases/reports-detail/reports-detail.component';
 
 @NgModule({
     declarations: [
@@ -38,7 +39,8 @@ import { CommentsDetailComponent } from './knowledge-bases/comments-detail/comme
         CategoriesDetailComponent,
         KnowledgeBasesDetailComponent,
         CommentsComponent,
-        CommentsDetailComponent
+        CommentsDetailComponent,
+        ReportsDetailComponent
     ],
     imports: [
         CommonModule,
