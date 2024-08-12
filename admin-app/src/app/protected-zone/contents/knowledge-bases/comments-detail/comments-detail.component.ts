@@ -10,6 +10,8 @@ import { CommentsService } from '../../../../shared/services';
     styleUrls: ['./comments-detail.component.scss']
 })
 export class CommentsDetailComponent implements OnInit, OnDestroy {
+    constructor(public bsModalRef: BsModalRef, private commentsService: CommentsService) {}
+
     private subscription = new Subscription();
     public dialogTitle: string;
     public knowledgeBaseId: number;
@@ -17,32 +19,33 @@ export class CommentsDetailComponent implements OnInit, OnDestroy {
     public btnDisabled = false;
     public blockedPanel = false;
     public comment: Comment;
-    constructor(public bsModalRef: BsModalRef, private commentsService: CommentsService) {}
-    ngOnDestroy(): void {
-        this.subscription.unsubscribe();
-    }
-    ngOnInit(): void {
+
+    ngOnInit() {
         if (this.entityId) {
             this.loadFormDetails(this.entityId, this.knowledgeBaseId);
         }
     }
-
     private loadFormDetails(commentId, knowledgeBaseId) {
         this.blockedPanel = true;
         this.subscription.add(
             this.commentsService.getDetail(knowledgeBaseId, commentId).subscribe(
-                (res: Comment) => {
-                    this.comment = res;
+                (response: Comment) => {
+                    this.comment = response;
                     setTimeout(() => {
                         this.blockedPanel = false;
+                        this.btnDisabled = false;
                     }, 1000);
                 },
-                (err) => {
+                (error) => {
                     setTimeout(() => {
                         this.blockedPanel = false;
+                        this.btnDisabled = false;
                     }, 1000);
                 }
             )
         );
+    }
+    ngOnDestroy(): void {
+        this.subscription.unsubscribe();
     }
 }
